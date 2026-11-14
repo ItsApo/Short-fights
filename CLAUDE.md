@@ -8,7 +8,7 @@ UI text in Spanish. Workflow/method: `.claude/skills/godot-token-efficient-engin
 - `tools/check.sh` (~20 s) — import, menu, 3 headless offline matches (every map, both modes). Prints errors, spawn lines, kill counts. Kills > 0 = AI, hitscan, damage, respawn work.
 - `tools/check.sh net` (+~30 s) — adds LAN test on 127.0.0.1: host + client match, asserts a 3rd human is refused.
 - Visual: `Godot.exe --path . --resolution 960x540 --fixed-fps 30 --quit-after 45 --write-movie <scratch>/f.png res://match/match.tscn -- --map=N`, then view the last PNG.
-- Test hooks (user args after `--`): `--map=N --bots=N --ffa --host --join=IP` (Game._ready).
+- Test hooks (user args after `--`): `--map=N --bots=N --ffa --difficulty=N --primary=ID --host --join=IP` (Game._ready), `--test-aim` (local fighter always aims; ADS frames).
 - Gotcha: `godot --check-only --script` doesn't load autoloads => false "Identifier not found: Game". Don't use it.
 - Gotcha: `--fixed-fps` disables real-time; network tests must use `--max-fps` instead.
 - No export templates installed locally. iOS: `.github/workflows/ios-unsigned.yml` (macos-15 runner, Godot export_project_only + xcodebuild CODE_SIGNING_ALLOWED=NO) => artifact ShortFights-unsigned.ipa, user re-signs with Sideloader. Not run yet; GODOT_TAG there must match the editor version.

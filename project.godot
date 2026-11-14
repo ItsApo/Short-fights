@@ -12,6 +12,7 @@ config_version=5
 
 config/name="Short Fights"
 run/main_scene="res://ui/main_menu.tscn"
+config/icon="res://icon.png"
 config/features=PackedStringArray("4.7", "Mobile")
 
 [autoload]

@@ -4,11 +4,13 @@ extends Node3D
 ## so they are rotated -90 deg about Y; sized by longest dimension via TARGET_LENGTH.
 
 const HIP := Vector3(0.22, -0.22, -0.45)
-const ADS := Vector3(0.0, -0.12, -0.35)
+const ADS := Vector3(0.0, -0.12, -0.35)  # y is replaced per weapon by _ads_y (sights under the screen centre)
+const SIGHT_GAP := 0.003  # how far the weapon's top edge sits below the camera line while aiming
 const TARGET_LENGTH := {"rifle": 0.7, "shotgun": 0.8, "pistol": 0.3, "grenade": 0.13}
 
 var _holders: Dictionary = {}  # id -> Node3D holder
 var _muzzles: Dictionary = {}  # id -> Marker3D
+var _ads_y: Dictionary = {}  # id -> ADS height that puts the weapon's top (its sights) just under the crosshair
 var _id := ""
 var _bob_t := 0.0
 var _bob_amp := 0.0
@@ -36,7 +38,8 @@ func set_weapon(id: String) -> void:
 func update(delta: float, aim: float, move_speed: float, on_floor: bool) -> void:
 	delta = maxf(delta, 0.0001)
 	aim = clampf(aim, 0.0, 1.0)
-	var pos := HIP.lerp(ADS, aim)
+	var ads := Vector3(ADS.x, float(_ads_y.get(_id, ADS.y)), ADS.z)
+	var pos := HIP.lerp(ads, aim)
 	var rot := Vector3.ZERO
 
 	# bob (walk cycle), weaker while aiming
@@ -150,6 +153,7 @@ func _build(id: String) -> void:
 	holder.add_child(mz)
 	_holders[id] = holder
 	_muzzles[id] = mz
+	_ads_y[id] = -bounds.end.y - SIGHT_GAP
 	holder.visible = false
 
 

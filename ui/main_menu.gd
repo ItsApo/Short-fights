@@ -255,9 +255,25 @@ func _on_connection_failed() -> void:
 func _update_status() -> void:
 	if not _hosting:
 		return
-	var ips: Array[String] = []
-	for a in IP.get_local_addresses():
-		if ":" in a or a.begins_with("127."):
-			continue
-		ips.append(a)
-	_status.text = "Esperando jugador…  Jugadores: %d/%d\nIP: %s" % [Game.humans().size(), Game.MAX_HUMANS, ", ".join(ips)]
+	_status.text = "Esperando jugador…  Jugadores: %d/%d\nTu IP: %s" % [Game.humans().size(), Game.MAX_HUMANS, "\n".join(_lan_ips())]
+
+
+## Usable LAN IPv4s as "Adapter: ip". Drops loopback, link-local 169.254.* (adapter without network) and
+## virtual adapters (VMs, WSL, Docker) so only the real Wi-Fi/Ethernet address is shown.
+func _lan_ips() -> Array[String]:
+	var virtual := RegEx.create_from_string("(?i)virtualbox|vmware|vethernet|hyper-v|wsl|docker|loopback|bluetooth|npcap")
+	var real: Array[String] = []
+	var other: Array[String] = []
+	for iface in IP.get_local_interfaces():
+		var label: String = iface.get("friendly", iface.get("name", ""))
+		for a: String in iface.get("addresses", []):
+			if ":" in a or a.begins_with("127.") or a.begins_with("169.254."):
+				continue
+			# shortcut: 192.168.56.* is VirtualBox's default host-only net (Windows names it "Ethernet 2"); a real LAN on that subnet would be hidden
+			if virtual.search(label) or a.begins_with("192.168.56."):
+				other.append(a)
+			elif label.to_lower().contains("wi-fi") or label.to_lower().contains("wlan"):
+				real.push_front("%s: %s" % [label, a])
+			else:
+				real.append("%s: %s" % [label, a] if label != "" else a)
+	return real if not real.is_empty() else other

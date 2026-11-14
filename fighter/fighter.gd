@@ -225,7 +225,7 @@ func _human_intent() -> Dictionary:
 		"reload": Input.is_action_just_pressed("reload"),
 		"slot": sl,
 		"next": Input.is_action_just_pressed("next_weapon"),
-		"aim": can_fire and Input.is_action_pressed("aim"),
+		"aim": (can_fire and Input.is_action_pressed("aim")) or "--test-aim" in OS.get_cmdline_user_args(),
 		"sprint": Input.is_action_pressed("sprint"),
 	}
 

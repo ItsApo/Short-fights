@@ -32,6 +32,7 @@ func _ready() -> void:
 		if a.begins_with("--map="): config.map = int(a.get_slice("=", 1))
 		elif a.begins_with("--bots="): config.bots = int(a.get_slice("=", 1))
 		elif a.begins_with("--difficulty="): config.difficulty = clampi(int(a.get_slice("=", 1)), 0, 2)
+		elif a.begins_with("--primary="): loadouts[1] = a.get_slice("=", 1)
 		elif a == "--ffa": config.mode = Mode.FFA; config.kill_limit = 10
 		elif a == "--host":
 			host()
