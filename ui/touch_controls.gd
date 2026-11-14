@@ -30,7 +30,8 @@ var _pressed := {}      # button id -> true
 
 
 func _ready() -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	# already in the tree here: plain set_anchors_preset() would leave size at 0 and draw buttons off-screen
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_prev_emulate = Input.emulate_mouse_from_touch
 	Input.emulate_mouse_from_touch = false
