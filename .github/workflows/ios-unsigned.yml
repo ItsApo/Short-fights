@@ -13,7 +13,7 @@ env:
 
 jobs:
   ios:
-    runs-on: macos-15
+    runs-on: macos-26              # Godot 4.7 iOS templates need the iOS 26 SDK (Xcode 26); macos-15 defaults to Xcode 16
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4

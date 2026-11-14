@@ -11,7 +11,7 @@ UI text in Spanish. Workflow/method: `.claude/skills/godot-token-efficient-engin
 - Test hooks (user args after `--`): `--map=N --bots=N --ffa --difficulty=N --primary=ID --host --join=IP` (Game._ready), `--test-aim` (local fighter always aims; ADS frames).
 - Gotcha: `godot --check-only --script` doesn't load autoloads => false "Identifier not found: Game". Don't use it.
 - Gotcha: `--fixed-fps` disables real-time; network tests must use `--max-fps` instead.
-- No export templates installed locally. iOS: `.github/workflows/ios-unsigned.yml` (macos-15 runner, Godot export_project_only + xcodebuild CODE_SIGNING_ALLOWED=NO) => artifact ShortFights-unsigned.ipa, user re-signs with Sideloader. Not run yet; GODOT_TAG there must match the editor version.
+- No export templates installed locally. iOS: `.github/workflows/ios-unsigned.yml` (macos-26 runner: Godot 4.7 templates link against the iOS 26 SDK, Xcode 16 fails with undefined CADynamicRange*/MTLTensorDomain; Godot export_project_only + xcodebuild CODE_SIGNING_ALLOWED=NO) => artifact ShortFights-unsigned.ipa, user re-signs with Sideloader. Not run yet; GODOT_TAG there must match the editor version.
 
 ## Files (owner = who may edit during a build wave)
 | File | Role |
